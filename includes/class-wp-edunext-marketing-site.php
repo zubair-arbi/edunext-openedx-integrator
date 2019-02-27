@@ -107,6 +107,7 @@ class WP_eduNEXT_Marketing_Site {
 		// Load shortcodes
 		add_action( 'wp_enqueue_scripts', array( $this, 'enroll_integration_scripts' ), 10 );
 		add_shortcode( 'edunext_enroll_button', array( $this, 'edunext_enroll_button' ) );
+		add_shortcode( 'discovery_course_runs', array( $this, 'discovery_course_runs' ) );
 
 		// Helpful tips for users using the shortcode
 		add_action( 'add_meta_boxes', array( $this, 'add_shortcode_help_meta_box') );
@@ -174,6 +175,9 @@ class WP_eduNEXT_Marketing_Site {
 	public function enqueue_styles () {
 		wp_register_style( $this->_token . '-frontend', esc_url( $this->assets_url ) . 'css/frontend.css', array(), $this->_version );
 		wp_enqueue_style( $this->_token . '-frontend' );
+
+		wp_register_style( $this->_token . '-discoveryCourseRunCards', esc_url( $this->assets_url ) . 'css/discoveryCourseRunCards.css', array(), $this->_version );
+		wp_enqueue_style( $this->_token . '-discoveryCourseRunCards' );
 	} // End enqueue_styles ()
 
 	/**
@@ -217,6 +221,7 @@ class WP_eduNEXT_Marketing_Site {
 	 */
 	public function enroll_integration_scripts ( $hook = '' ) {
 		wp_register_script( 'edunext_enroll_button', esc_url( $this->assets_url ) . 'js/edunextEnrollButton' . $this->script_suffix . '.js' , array( 'jquery', 'edunext_commons' ), $this->_version );
+		wp_register_script( 'discovery_course_runs', esc_url( $this->assets_url ) . 'js/discoveryCourseRunCards' . $this->script_suffix . '.js' , array( 'jquery', 'edunext_commons' ), $this->_version );
 	} // End enroll_integration_scripts ()
 
 	/**
@@ -232,7 +237,9 @@ class WP_eduNEXT_Marketing_Site {
 				'user_info_cookie_name' => get_option('wpt_user_info_cookie_name'),
 				'is_loggedin_cookie_name' => get_option('wpt_is_logged_in_cookie_name'),
 				'lms_base_url' => get_option('wpt_lms_base_url'),
+				'discovery_base_url' => get_option('wpt_discovery_base_url'),
 				'enrollment_api_location' => get_option('wpt_enrollment_api_location', '/api/enrollment/v1/'),
+				'discovery_course_runs_api_location' => get_option('wpt_discovery_course_runs_api_location', '/api/v1/course_runs/'),
 				'user_enrollment_url' => get_option('wpt_user_enrollment_url', '/register?course_id=%course_id%&enrollment_action=enroll'),
 				'course_has_not_started_url' => get_option('wpt_course_has_not_started_url', '/dashboard'),
 		));
@@ -300,6 +307,30 @@ class WP_eduNEXT_Marketing_Site {
 		return "<div class=\"ednx-enroll-button-js\" style=\"display:none\" data-course-id=\"${course_id}\" data-settings=\"${short_id}\"><span>" . $course_id . "</span></div>";
 
 	} // End edunext_enroll_button ()
+	public function discovery_course_runs ( $atts ) {
+		// How to use: [discovery_course_runs]
+
+		// Attributes
+		STATIC $unique_id = 1;
+		$short_id ='DiscoveryCourseRun' . $unique_id++;
+
+		$atts = shortcode_atts(
+			array(
+				'course_id' => '',
+			),
+			$atts,
+			'discovery_course_runs'
+		);
+
+		$this->enqueue_commons_script();
+		wp_enqueue_script( 'discovery_course_runs' );
+		wp_localize_script( 'discovery_course_runs', $short_id, $atts );
+
+		$course_id = $atts['course_id'];
+
+		return "<div class=\"discovery-course-runs-js\" style=\"display:none\" data-course-id=\"${course_id}\" data-settings=\"${short_id}\"><span>" . $course_id . "</span></div>";
+
+	} // End discovery_course_runs ()
 
 	public function add_shortcode_help_meta_box()
 	{

@@ -132,6 +132,14 @@ class WP_eduNEXT_Marketing_Site_Settings {
 					'placeholder'	=> __( 'https://mylms.edunext.io', 'wp-edunext-marketing-site' )
 				),
 				array(
+					'id' 			=> 'discovery_base_url',
+					'label'			=> __( 'Base domain for the open edX discovery service domain' , 'wp-edunext-marketing-site' ),
+					'description'	=> __( "The url where all your courses discovery API's are located.", 'wp-edunext-marketing-site' ),
+					'type'			=> 'text',
+					'default'		=> '',
+					'placeholder'	=> __( 'http://localhost:18381', 'wp-edunext-marketing-site' )
+				),
+				array(
 					'id' 			=> 'button_class_generic',
 					'label'			=> __( 'CSS classes for the buttons ' , 'wp-edunext-marketing-site' ),
 					'description'	=> __( 'You can override the specific buttons in the Enrollment tab' ),
@@ -170,6 +178,15 @@ class WP_eduNEXT_Marketing_Site_Settings {
 					'description'		=> __( 'Normally you don\'t need to change it.', 'wp-edunext-marketing-site' ),
 					'type'				=> 'text',
 					'default'			=> '/api/enrollment/v1/',
+					'placeholder'		=> __( '', 'wp-edunext-marketing-site' ),
+					'advanced_setting' 	=> true
+				),
+				array(
+					'id' 				=> 'discovery_course_runs_api_location',
+					'label'				=> __( 'Course runs API Location for discovery service' , 'wp-edunext-marketing-site' ),
+					'description'		=> __( 'Normally you don\'t need to change it.', 'wp-edunext-marketing-site' ),
+					'type'				=> 'text',
+					'default'			=> '/api/v1/course_runs/',
 					'placeholder'		=> __( '', 'wp-edunext-marketing-site' ),
 					'advanced_setting' 	=> true
 				),
