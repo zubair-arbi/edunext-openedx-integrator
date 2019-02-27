@@ -1,0 +1,29 @@
+form {
+    position: relative;
+}
+
+div.eox-status-container {
+    position: absolute;
+    right: 0;
+    padding: 10px;
+    top: 0;
+    background: #EEE;
+    border: 1px solid #cccccc;
+}
+
+div.eox-status-container span {
+    display: block;
+}
+
+div.eox-status-container .error {
+    color: red;
+}
+
+span.reload-warning {
+    display: block;
+    padding: 8px 10px;
+    background: lightyellow;
+    margin-top: 10px;
+    color: darkgoldenrod;
+    border-radius: 4px;
+}
